@@ -1,4 +1,5 @@
-# Geographic Data Scientist
+# Elis Davies
+Geographic Data Science Masters Student
 
 ### Education
 - University of Liverpool. Geography BSc
