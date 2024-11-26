@@ -1,0 +1,619 @@
+---
+title: "Computational Essay"
+toc: true
+format: 
+  html:
+    html-math-method: katex
+    code-tools: false
+    self-contained: true
+    embed-resources: true
+editor: visual
+execute: 
+  warning: false
+bibliography: references.bib
+lang: en-GB
+---
+
+# Installing Packages
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# Simple Features, used for working with spatial data.
+library(sf)         
+library(dplyr)
+library(ggplot2)
+#library(basemapR)
+library(ggspatial)
+library(viridis)
+library(colorspace)
+library(ggmap)
+library(patchwork)
+library(ggspatial)
+library(mapsf)
+library(classInt)
+library(RColorBrewer)
+
+# Spatial and Spatio-Temporal Geostatistical Modelling, Prediction, and Simulation
+library(gstat)  
+library(spatstat) 
+
+# Clustering and Dimensionality Reduction
+library(dbscan) 
+library(fpc)        
+library(eks)    
+
+# Tidy Census
+knitr::opts_chunk$set(echo = TRUE)
+library(plyr)
+library(tidycensus)
+library(tidyverse)
+library(sfdep)
+census_api_key("1012e815b8f8cb67747ff9db91078e3cb93c5aa6") 
+options(tigris_use_cache = TRUE)
+
+# ESDA
+library(rosm)
+library(spdep)
+library(tidyr)
+library(patchwork)
+
+# Bivariate choropleth
+library(httr)
+library(jsonlite)
+library(readxl)
+library(biscale)
+library(cowplot)
+library(gridGraphics)
+
+# Part 2 libraries
+library(osmdata)
+library(fpc)
+library(eks)
+library(factoextra)
+```
+
+# Introduction
+
+This study utilises Inside Airbnb and US Census Bureau data, and spatial analysis techniques to examine the interplay between short-term rental dynamics, per capita income, and population distribution in the San Francisco Bay Area. Utilizing geospatial visualizations and statistical methods, the research aims to uncover patterns that can inform decisions for various stakeholders, including businesses, potential investors, and policy-makers.
+
+# Body
+
+## Part 1
+
+### 1.1 Collecting and importing the data
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+datafolder <- (file.path("/Users/elisdavies/Documents/gdsAssessment2/data"))
+```
+
+Airbnb listing data and neighbourhood boundaries are from [insideairbnb.com](http://insideairbnb.com/) and zip code areas are from [Berkeley Library](https://geodata.lib.berkeley.edu/catalog/ark28722-s7888q).
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# Read in the AirBnB Listings for the three areas
+sf_listings <- read.csv(file.path(datafolder,"SF_listings.csv"))
+sm_listings <- read.csv(file.path(datafolder,"SM_listings.csv"))
+o_listings <- read.csv(file.path(datafolder,"O_listings.csv"))
+
+# Read the neighbourhood files in
+sf_nb <- read_sf(file.path(datafolder,"SF_neighbourhoods.geojson"))
+sm_nb <- read_sf(file.path(datafolder,"SM_neighbourhoods.geojson"))
+o_nb <- read_sf(file.path(datafolder,"O_neighbourhoods.geojson"))
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# Project the listing dfs
+sf_listings <- sf_listings %>%
+  st_as_sf(coords = c(8,7)) %>% # denote columns which have the coordinates
+  st_set_crs(4326) # set crs to 4326
+sm_listings <- sm_listings %>%
+  st_as_sf(coords = c(8,7)) %>% 
+  st_set_crs(4326)
+o_listings <- o_listings %>%
+  st_as_sf(coords = c(8,7)) %>% 
+  st_set_crs(4326) 
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# Read in the zip codes
+zipCodes <- read_sf(file.path(datafolder,"Bay_Zips/s7888q.shp"))
+```
+
+### 1.2 Preparing the data
+
+Choosing the right projection is important to ensure minimal distortion and maximum preservation of shapes, areas, distances, and directions on the map [@yildirim2008]. Therefore, as this analysis looks at San Francisco Bay Area, crs 7131 (from <https://epsg.io/7131>) will be used as this is specific for this area.
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# Project files to 7131
+sf_nb <- st_make_valid(sf_nb)
+sm_nb <- st_make_valid(sm_nb)
+o_nb <- st_make_valid(o_nb)
+zipCodes <- st_make_valid(zipCodes)
+
+sf_nb <- st_transform(sf_nb, 7131)
+sm_nb <- st_transform(sm_nb, 7131)
+o_nb <- st_transform(o_nb, 7131)
+sf_listings <- st_transform(sf_listings, 7131)
+sm_listings <- st_transform(sm_listings, 7131)
+o_listings <- st_transform(o_listings, 7131)
+zipCodes <- st_transform(zipCodes, 7131)
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# Join tables to make a single San Francisco Bay Area listings and neighbourhoods shape files
+bay_listings <- rbind(sf_listings, sm_listings, o_listings)
+bay_nb <- rbind(sf_nb, sm_nb, o_nb)
+bay_nb <- st_make_valid(bay_nb)
+```
+
+### 1.4 Mapping and Data Visualisation
+
+#### Airbnb in the Bay Area
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# Join neighbourhoods and listings
+airbnb_Bay <- st_join(bay_nb, bay_listings)
+
+listings_Bay_zips <- st_join(zipCodes, bay_listings)
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# aggregate at zip level and count number of listings
+airbnb_zip_agg <- listings_Bay_zips %>%
+  group_by(ZIP)%>%
+  dplyr::summarise(
+    count_airbnb = n(),
+    mean_price = mean(price)
+  )
+
+airbnb_zip_agg_filtered <- airbnb_zip_agg %>%
+  filter(!is.na(mean_price)) # filter out zips codes that have NA mean price, as there are no listings in these areas
+```
+
+The Fisher-Jenks system is employed for classifying listing counts and average prices, it makes interpretation easier with unevenly distributed data compared to other methods [@lee2019a], providing a clear visualisation of the geospatial distribution of the data [@morales-alemán2022].
+
+Red-Blue and Purple-Orange colour schemes are chosen to visualise these maps. Red-Blue is popular and accessible to those with red-green impairments [@olson1997]. Purple-Orange is another popular colour scheme as it is effective to represent quantitative data and makes it easier for the viewer to differentiate between the categories [@golebiowska2019a], especially those with colour vision deficiencies [@cromley2009].
+
+```{r, warning = FALSE}
+# Map the counts
+# Find fisher breaks for data segmentation into 5 groups.
+fish_breaks_count <- classIntervals(airbnb_zip_agg_filtered$count_airbnb, n = 4, style = "fisher")
+
+# Assign the class breaks to the data
+airbnb_zip_agg_filtered$fish_breaks_count <- cut(airbnb_zip_agg_filtered$count_airbnb, fish_breaks_count$brks)
+
+# Replace NA values in the 'fish_break_counts' column
+airbnb_zip_agg_filtered$fish_breaks_count[is.na(airbnb_zip_agg_filtered$fish_breaks_count)] <- "(1,81.5]"
+
+num_bins <- 4
+
+# Define a color palette for visualizing data.
+count_map <- brewer.pal(num_bins, "RdBu")
+
+count_groups = c("1 - 81", "81 - 210", "210 - 414", "414 - 794")
+
+map_BA_count <- ggplot()+
+  geom_sf(data = airbnb_zip_agg_filtered, inherit.aes = FALSE, aes(fill = fish_breaks_count), colour = "black") +
+  #scale_fill_viridis("Mean Price ($)", direction = -1, option = "viridis") +
+  scale_fill_manual(
+    values = count_map,
+    name = "Count",
+    labels = count_groups) +
+  geom_sf_text(data = airbnb_zip_agg_filtered,
+               aes(label = NA),
+               fun.geometry = sf::st_centroid, size = 2) +
+  ggtitle("Airbnb Data for San Francisco Bay Area") +
+  annotation_north_arrow(location = "tl", style = north_arrow_fancy_orienteering, width = unit(1.25, "cm"), height = unit(1.25, "cm")) +
+  annotation_scale(location = "bl", line_width = 0.2, height = unit(0.1, "in")) +
+  labs(caption = "Figure 1a") +
+  theme_void()
+```
+
+```{r, warning = FALSE}
+# Find fisher breaks for data segmentation into 5 groups.
+fish_breaks_price <- classIntervals(airbnb_zip_agg_filtered$mean_price, n = 4, style = "fisher")
+
+# Assign the class breaks to the data
+airbnb_zip_agg_filtered$fish_breaks_price <- cut(airbnb_zip_agg_filtered$mean_price, fish_breaks_price$brks)
+
+# Replace NA values in the 'fish_breaks_price' column
+airbnb_zip_agg_filtered$fish_breaks_price[is.na(airbnb_zip_agg_filtered$fish_breaks_price)] <- "(74,214]"
+
+# Define a color palette for visualizing data.
+price_map <- brewer.pal(num_bins, "PuOr")
+
+price_groups = c("$74 - $214", "$214 - $392", "$392 - $933", "$933 - $1820")
+
+map_BA_meanPrice <- ggplot()+
+  geom_sf(data = airbnb_zip_agg_filtered, inherit.aes = FALSE, aes(fill = fish_breaks_price), colour = "black") +
+  #scale_fill_viridis("Mean Price ($)", direction = -1, option = "viridis") +
+  scale_fill_manual(
+    values = price_map,
+    name = "Average Price",
+    labels = price_groups) +
+  geom_sf_text(data = airbnb_zip_agg_filtered,
+               aes(label = NA),
+               fun.geometry = sf::st_centroid, size = 2) +
+  labs(caption = "Figure 1b") +
+  theme_void()
+```
+
+```{r, warning = FALSE}
+map1 <- map_BA_count + map_BA_meanPrice
+map1
+```
+
+Figure 1 shows San Francisco's centre has the highest listings (figure 1a), but not necessarily the highest prices (figure 1b), while the north-east coastal zip codes, shows the highest prices. Oakland has some high counts, but generally has the lowest prices.
+
+The inside Airbnb data provides insights into the dynamics of the short-term market and its impact on various aspects of urban environments, as this data makes use of three "new" types of data sources, i.e., open data, businesses moving online, and citizens as sensors [@arribas-bel2014].\
+This new form of open data allows for the insight into temporal patterns, spatial distribution, providing insights, and lengths of stay into the changing dynamics of short-term rentals in response to external factors e.g., the COVID-19 pandemic [@li2023]. However, biases may arise from voluntary user reviews and selective reporting, influencing the representation of customer experiences and property reputations [@zervas2020b].\
+Opportunities include conducting spatial regression and quantitative analysis to understand spatio-temporal variations and contextual factors [@crisci2022].\
+@alsudais2021 has explored the limitations of the dataset. Data is scraped from the Airbnb website using non-updated python scripts which also assumes that Airbnb does not put preventive measures in place or spam data to stop certain data being extracted, leading to false information. Further, data is extracted by listings ID, not if it is an experience or property listings, therefore, reviews of both can be wrongly combined by code due to the same ID, leading to inaccuracies in prices, and reviews.
+
+### 1.4.2 Socio-economic variables
+
+Socio-economic variables, in this case, per capita income (PCI), and population data, are obtained from the US Census Bureau from 2020.
+
+```{r, warning = FALSE, message = FALSE, output = FALSE}
+# per capita income
+US_zips_income <- get_acs(
+  geography = "zip code tabulation area",
+  variables = "B19301_001",
+  geometry = TRUE,
+  year = 2020
+)
+
+# population data
+US_zips_population <- get_acs(
+  geography = "zip code tabulation area",
+  variables = "B01003_001E",
+  geometry = TRUE,
+  year = 2020
+)
+
+US_zips_income <- st_transform(US_zips_income, 7131)
+US_zips_population <- st_transform(US_zips_population, 7131)
+
+US_zips_income <- dplyr::select(US_zips_income, -c(NAME, variable, moe))
+US_zips_income <- dplyr::rename(US_zips_income, per_capita_income = estimate)
+
+US_zips_population <- dplyr::select(US_zips_population, -c(NAME, variable, moe))
+US_zips_population <- dplyr::rename(US_zips_population, population = estimate)
+
+bay_zips <- st_intersection(zipCodes, bay_nb)
+bay_zips <- dplyr::select(bay_zips, c(ZIP, geometry))
+
+bay_income_zctas <- st_intersection(US_zips_income, bay_zips)
+bay_population_zctas <- st_intersection(US_zips_population, bay_zips)
+
+bay_income_zctas <- bay_income_zctas %>%
+  filter(!is.na(per_capita_income))
+bay_population_zctas <- bay_population_zctas %>%
+  filter(!is.na(population))
+
+bay_income_zctas_agg <- bay_income_zctas %>%
+  group_by(ZIP) %>%
+  dplyr::summarise(
+    mean_pci = mean(per_capita_income)
+  )
+
+bay_population_zctas_agg <- bay_population_zctas %>%
+  group_by(ZIP) %>%
+  dplyr::summarise(
+    mean_pop = mean(population)
+  )
+```
+
+```{r, warning = FALSE}
+# Remove the geometry column from bay_population_zctas_agg
+bay_population_zctas_agg_noGeom <- st_drop_geometry(bay_population_zctas_agg)
+
+bay_all <- merge(bay_income_zctas_agg, bay_population_zctas_agg_noGeom, by = "ZIP")
+```
+
+As before, Fisher-Jenks is used for this map, allowing for the better interpretation and classification of unevenly distributed data.
+
+```{r, warning = FALSE}
+bay_all <- bay_all %>%
+  mutate(mean_pci = round(mean_pci / 1000))
+# Find fisher breaks for data segmentation into 5 groups.
+fish_breaks_pci <- classIntervals(bay_all$mean_pci, n = 4, style = "fisher")
+
+# Assign the class breaks to the data
+bay_all$fish_breaks_pci <- cut(bay_all$mean_pci, fish_breaks_pci$brks)
+
+bay_all$fish_breaks_pci[is.na(bay_all$fish_breaks_pci)] <- "(3,21.5]"
+
+num_bins <- 4
+# Define a color palette for visualizing data.
+colour_pci <- brewer.pal(num_bins, "Blues")
+
+income_group = c("$25 - $45.5", "$45.5 - $71", "$71 - $97", "$97 - $135")
+
+plot_pci <- bay_all %>%
+  ggplot() +
+  geom_sf(aes(fill = fish_breaks_pci), colour = "black") +
+  scale_fill_manual(
+    values = colour_pci,
+    name = "GDP per capita\n(in 1000s)",
+    labels = income_group) +
+  labs(caption = "Figure 2b") +
+  theme_void()
+```
+
+```{r, warning = FALSE}
+bay_all <- bay_all %>%
+  mutate(mean_pop = round(mean_pop / 1000))
+
+# Find fisher breaks for data segmentation into 5 groups.
+fish_breaks_pop <- classIntervals(bay_all$mean_pop, n = 4, style = "fisher")
+
+# Assign the class breaks to the data
+bay_all$fish_breaks_pop <- cut(bay_all$mean_pop, fish_breaks_pop$brks)
+
+bay_all$fish_breaks_pop[is.na(bay_all$fish_breaks_pop)] <- "(25,45.5]"
+
+pop_group = c("3 - 21.5", "21.5 - 32.5", "32.5 - 44", "44 - 57")
+
+colour_pop <- brewer.pal(num_bins, "Reds")
+
+plot_pop <- bay_all %>%
+  ggplot() +
+  geom_sf(aes(fill = fish_breaks_pop), colour = "black") +
+  scale_fill_manual(
+    values = colour_pop,
+    name = "Population\n(in 1000s)",
+    labels = pop_group) +
+  labs(title = "Socio-economic data for San Francisco Bay Area", caption = "Figure 2a") +
+  annotation_scale(location = "bl", line_width = 0.2, height = unit(0.1, "in"))+
+  annotation_north_arrow(location = "tl", style = north_arrow_fancy_orienteering, width = unit(1.25, "cm"), height = unit(1.25, "cm")) +
+  theme_void()
+```
+
+```{r, warning = FALSE}
+# Combine the two plots using the `+` operator
+combined_plot <- plot_pop + plot_pci
+
+# Print the final combined plot
+print(combined_plot)
+```
+
+Figure 2 shows the spatial distribution of population (2a) and per capita income (2b). Highest populations are around San Francisco, and north San Mateo, with population decreasing moving away from the big cities. Highest GDP is seen in less populated areas notably in the south of San Mateo.\
+Predicting Airbnb clusters, it's expected that high clusters will be in higher-density, higher-income regions like San Francisco and North Mateo. This is because these areas are the most desirable to tourists and business travellers, as there would be a high concentration of attractions, amenities, and activities in such areas [@rodríguez2021]. Additionally, these areas have the most infrastructure, i.e., public transport, to support tourists [@rodríguez2021a].
+
+### 1.4.3 Combining Data Sets
+
+```{r}
+airbnb_seVariables <- st_join(bay_all, airbnb_zip_agg_filtered)
+
+airbnb_seVariables <- dplyr::select(airbnb_seVariables, -c(ZIP.y))
+airbnb_seVariables <- dplyr::rename(airbnb_seVariables, ZIP = ZIP.x)
+
+airbnb_seVariables$log_mean_price <- log(airbnb_seVariables$mean_price)
+
+biClasses <- bi_class(airbnb_seVariables, x = mean_pci, y = log_mean_price, style = "quantile", dim = 3)
+```
+
+```{r}
+bi_Map <- ggplot()+
+  geom_sf(data = biClasses, mapping = aes(fill = bi_class), color = "black", size = 0.1, show.legend = FALSE) +
+  labs(title = "Per Capita Income and Airbnb Listing Prices", caption = "Figure 3") +
+  bi_scale_fill(pal = "DkViolet", dim = 3) +
+  coord_sf(crs = st_crs(7131), datum = NA) +
+  theme(plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"),
+        plot.title = element_text(size = 18, face = "bold", hjust = 0.5)) +
+  annotation_scale(location = "bl", line_width = 0.2, height = unit(0.05, "in")) +
+  annotation_north_arrow(location = "tl", which_north = "true",
+                         height = unit(1.25, "cm"), width = unit(1.25, "cm"),
+                         style = north_arrow_fancy_orienteering) +
+  theme_minimal()
+
+bi_Legend <- bi_legend(pal = "DkViolet", dim = 3, xlab = "Higher PCI", ylab = "Higher price", size = 7)
+
+plot <- ggdraw() +
+  draw_plot(bi_Map, 0, 0, 1, 1) +
+  draw_plot(bi_Legend, 0.55, 0.358, 0.28, 0.28)
+
+plot
+```
+
+```{r, warning = FALSE, output = FALSE}
+res <- cor.test(airbnb_seVariables$mean_pci, airbnb_seVariables$mean_price, 
+                    method = "pearson")
+
+res$p.value
+res$estimate
+```
+
+| P Value | Estimate |
+|:-------:|:--------:|
+|  0.00   |   0.33   |
+
+: Table 1: Pearson correlation result
+
+Figure 3 shows the areas that see higher PCI see higher average listing prices, supported by the correlation test result of 0.33 (table 1) indicating a positive correlation between the variables.
+
+As in the hypothesis, areas that have high PCI experience higher listings prices, especially seen in the centre of San Francisco. Notably, Oakland, especially the inner city, shows low per capita and low listing prices.\
+The rise of short-term rentals, like Airbnb, may fuel gentrification in specific areas, potentially elevating property values and rental prices. This phenomenon, reflected in higher listing prices, is often associated with increased PCI in those locations [@wachsmuth2018].
+
+### 1.4.4 Spatial Autocorrelation of GDP
+
+To compute spatial autocorrelation of PCI, the queen contiguity spatial weights encompassing all neighbouring areas that share a border or vertex with a focal area [@zahnd2021]. This method provides a thorough evaluation of spatial relationships. Additionally, the Local Moran's I is employed to reveal spatial clusters of similar values. This approach is valuable for identifying localized patterns in PCI distribution.
+
+```{r}
+bay_all_spaitalWeights <- bay_all
+
+nb_q <- poly2nb(bay_all_spaitalWeights, queen = TRUE) # Construct neighbours list from polygon list
+
+w_queen <- nb2listw(nb_q, style = "B", zero.policy=TRUE) # Create a spatial weights matrix using queen contiguity
+
+isolates <- which(w_queen$neighbours == "0")
+
+bay_all_spaitalWeights <- bay_all_spaitalWeights[-c(isolates),]
+
+nb_q <- poly2nb(bay_all_spaitalWeights, queen = TRUE)
+w_queen_std <- nb2listw(nb_q, style = "W") 
+
+```
+
+```{r}
+bay_all_spaitalWeights$w_pci <- lag.listw(w_queen_std, bay_all_spaitalWeights$mean_pci)
+
+bay_all_spaitalWeights$pci_std <- (bay_all_spaitalWeights$mean_pci - mean(bay_all_spaitalWeights$mean_pci))/sd(bay_all_spaitalWeights$mean_pci)
+
+bay_all_spaitalWeights$w_pci_std <- lag.listw(w_queen_std, bay_all_spaitalWeights$pci_std)
+```
+
+```{r}
+lisa_perm <- localmoran_perm(bay_all_spaitalWeights$mean_pci, w_queen_std, nsim=1000, alternative = "two.sided")
+```
+
+```{r}
+quadrants <- hotspot(lisa_perm, Prname="Pr(z != E(Ii)) Sim", cutoff=0.1)
+```
+
+```{r}
+bay_all_spaitalWeights$quadrant <- as.character(quadrants)  %>% replace_na("Not significant")
+
+bay_all_spaitalWeights <- st_make_valid(bay_all_spaitalWeights)
+```
+
+```{r, warning = FALSE}
+cluster_colors <- c("High-High" = "#047fbd",
+                    "Low-Low" = "#ea0000",
+                    "Not significant" = "#d3d3d3")
+
+ggplot(data = bay_all_spaitalWeights) +
+  geom_sf(aes(fill = quadrant), color = "black") +
+  labs(title = "Spatial Weight Analysis of per captia income", caption = "Figure 4") +
+  scale_fill_manual(values = cluster_colors, name = "Cluster") +
+  annotation_scale(location = "bl", line_width = 0.2, height = unit(0.1, "in"))+
+  annotation_north_arrow(location = "tl", style = north_arrow_fancy_orienteering, width = unit(1.25, "cm"), height = unit(1.25, "cm")) +
+  theme_void()
+```
+
+Figure 4 displays a spatial weights matrix for PCI. The only high-high cluster is observed in the south of San Mateo, with a large low cluster in Oakland. San Francisco exhibits high variability in income levels, which is supported by @fisher2022.
+
+## Part 2
+
+### Data Preparation
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# Obtain the San Fransisco zip code areas
+o_nb <- st_set_geometry(o_nb, "geometry")
+zipCodes <- st_set_geometry(zipCodes, "geometry")
+
+o_zipCodes <- bay_all[o_nb,]
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+# Grant internet connection
+library(curl)
+curl::has_internet()
+assign("has_internet_via_proxy", TRUE, environment(curl::has_internet))
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+osm_q_o <- opq("Oakland") %>%
+    add_osm_feature(key = "amenity", value = "restaurant") %>%
+  osmdata_sf () # transforming to sf object
+
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+point_resturants <- osm_q_o$osm_points %>%
+  filter(amenity == "restaurant") %>%
+  st_transform(7131)
+
+centroid_resturants <- osm_q_o$osm_polygons %>% 
+  st_centroid() %>%
+  st_transform(7131)
+
+all_restaurants <- bind_rows(centroid_resturants, point_resturants)
+
+all_restaurants <- st_transform(all_restaurants, crs = 7131)
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+o_restaurants <- st_intersection(all_restaurants, o_zipCodes)
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+o_listings_zips <- st_intersection(airbnb_zip_agg_filtered, o_zipCodes)
+```
+
+```{r, message = FALSE, output = FALSE, warning = FALSE}
+vars <- c("osm_id", "geometry")
+o_restaurants_sub <- dplyr::select(o_restaurants,vars)
+
+o_restaurants_geom <- sf::st_as_sf(
+  o_restaurants_sub,
+  coords = c("osm_id"),
+  crs = 7131
+)
+
+o_rest_ZIP <- st_join(o_zipCodes, o_restaurants_geom)
+
+o_rest_ZIP_agg <- o_rest_ZIP %>%
+  group_by(ZIP) %>%
+  dplyr::summarise(
+    count_rest = ifelse(all(is.na(osm_id)), 0, sum(!is.na(osm_id)))
+  )
+
+o_rest_airbnb <- st_join(o_rest_ZIP_agg, o_listings_zips, by = "ZIP")
+
+o_rest_airbnb <- dplyr::select(o_rest_airbnb, ZIP.x, count_rest, geometry, count_airbnb)
+o_rest_airbnb <- dplyr::rename(o_rest_airbnb, ZIP = ZIP.x)
+```
+
+### DBSCAN
+
+```{r message = FALSE, output = FALSE, warning = FALSE}
+vars <- c("osm_id", "geometry")
+d.sub <- dplyr::select(o_restaurants,vars)
+```
+
+```{r message = FALSE, output = FALSE, warning = FALSE}
+# Convert geometries to longitude and latitude
+d.sub_longlat <- d.sub %>% extract(geometry, c('lat', 'lon'), '\\((.*), (.*)\\)', convert = TRUE) 
+
+locs = dplyr::select(d.sub_longlat, lat, lon)
+
+#scalling the data points
+locs.scaled = scale(locs,center = T,scale = T)
+
+dbscan::kNNdistplot(locs.scaled,k=1)
+abline(h=0.15,lty = 2,col=rainbow(1),main="eps optimal value")
+
+# eps optimal value = 0.15
+```
+
+Setting MinPts = 10 prioritizes significant local density within clusters. This choice aids in noise reduction, filtering out less dense regions and promotes the formation of larger, consolidated clusters, enhancing the identification of major activity centres [@lin2020].
+
+```{r message = FALSE, output = FALSE, warning = FALSE}
+set.seed(123456789)
+db <- dbscan::dbscan(locs.scaled, eps = 0.15, minPts = 10)
+
+o_restaurants_geom$cluster <- db$cluster
+```
+
+```{r}
+# Example color assignment for clusters
+cluster_colors <- c("#000000", "#F8766D", "#CE9600", "#7CAE00", "#09BE66", "#00BFC4", "#00A9FF", "#C77BFF", "#FF62CC")
+
+ggplot()+
+  geom_sf(data = o_zipCodes, fill = "lightgrey", size = 1.5) +
+  geom_sf(data = o_restaurants_geom, aes(color = factor(cluster)), size = 0.5) +
+  scale_color_manual(values = cluster_colors, name = "Cluster Group") +
+  theme(legend.position = "right") +
+  labs(title = "Restaurant Clusters in Oakland", subtitle = "DBSCAN", caption = "Cluster group 0 = outliers\nFigure 5") +
+  annotation_scale(location = "bl", line_width = 0.2, height = unit(0.05, "in")) +
+  annotation_north_arrow(location = "tl", which_north = "true",
+                         height = unit(1.25, "cm"), width = unit(1.25, "cm"),
+                         style = north_arrow_fancy_orienteering) +
+  theme_void()
+```
+
+This analysis can assist potential restaurant owners in Oakland. Considering the substantial use of restaurants by Airbnb tourists [@tussyadiah2016], identifying areas with a high number of Airbnbs (figure 1a) and minimal restaurant competition is crucial (figure 5). The southeast zip code area stands out based on these factors, with a high Airbnb presence and a lack of restaurant clusters.
+
+# Conclusion
+
+In conclusion, this analysis reveals insights into the San Francisco Bay Area's urban dynamics, drawing from Inside Airbnb data and socio-economic variables. Notably, high per capita income areas correlate with elevated Airbnb listing prices, reflecting the influence of socio-economic factors on short-term rental dynamics. The study identifies potential hotspots for new restaurants, such as the southeast of Oakland, based on Airbnb presence and limited competition. Despite data limitations, these findings offer practical implications for businesses and stakeholders, underscoring the complex interplay between short-term rentals, urban socio-economics, and spatial patterns.
