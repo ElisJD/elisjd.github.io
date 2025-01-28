@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Computational Essay</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="ENVS363_563.3-GITHUB_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ENVS363_563.3-GITHUB_files/libs/quarto-html/quarto.js"></script>
+<script src="ENVS363_563.3-GITHUB_files/libs/quarto-html/popper.min.js"></script>
+<script src="ENVS363_563.3-GITHUB_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ENVS363_563.3-GITHUB_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ENVS363_563.3-GITHUB_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ENVS363_563.3-GITHUB_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ENVS363_563.3-GITHUB_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ENVS363_563.3-GITHUB_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ENVS363_563.3-GITHUB_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#installing-packages" id="toc-installing-packages" class="nav-link active" data-scroll-target="#installing-packages">Installing Packages</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#body" id="toc-body" class="nav-link" data-scroll-target="#body">Body</a>
+  <ul class="collapse">
+  <li><a href="#part-1" id="toc-part-1" class="nav-link" data-scroll-target="#part-1">Part 1</a>
+  <ul class="collapse">
+  <li><a href="#collecting-and-importing-the-data" id="toc-collecting-and-importing-the-data" class="nav-link" data-scroll-target="#collecting-and-importing-the-data">1.1 Collecting and importing the data</a></li>
+  <li><a href="#preparing-the-data" id="toc-preparing-the-data" class="nav-link" data-scroll-target="#preparing-the-data">1.2 Preparing the data</a></li>
+  <li><a href="#mapping-and-data-visualisation" id="toc-mapping-and-data-visualisation" class="nav-link" data-scroll-target="#mapping-and-data-visualisation">1.4 Mapping and Data Visualisation</a></li>
+  <li><a href="#socio-economic-variables" id="toc-socio-economic-variables" class="nav-link" data-scroll-target="#socio-economic-variables">1.4.2 Socio-economic variables</a></li>
+  <li><a href="#combining-data-sets" id="toc-combining-data-sets" class="nav-link" data-scroll-target="#combining-data-sets">1.4.3 Combining Data Sets</a></li>
+  <li><a href="#spatial-autocorrelation-of-gdp" id="toc-spatial-autocorrelation-of-gdp" class="nav-link" data-scroll-target="#spatial-autocorrelation-of-gdp">1.4.4 Spatial Autocorrelation of GDP</a></li>
+  </ul></li>
+  <li><a href="#part-2" id="toc-part-2" class="nav-link" data-scroll-target="#part-2">Part 2</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
+  <li><a href="#dbscan" id="toc-dbscan" class="nav-link" data-scroll-target="#dbscan">DBSCAN</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Computational Essay</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="installing-packages" class="level1">
+<h1>Installing Packages</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple Features, used for working with spatial data.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)         </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(basemapR)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(colorspace)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapsf)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(classInt)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial and Spatio-Temporal Geostatistical Modelling, Prediction, and Simulation</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)  </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat) </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Clustering and Dimensionality Reduction</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbscan) </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpc)        </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(eks)    </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Tidy Census</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plyr)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidycensus)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sfdep)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">census_api_key</span>(<span class="st">"1012e815b8f8cb67747ff9db91078e3cb93c5aa6"</span>) </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tigris_use_cache =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># ESDA</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rosm)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spdep)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Bivariate choropleth</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(biscale)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridGraphics)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Part 2 libraries</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(osmdata)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpc)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(eks)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This study utilises Inside Airbnb and US Census Bureau data, and spatial analysis techniques to examine the interplay between short-term rental dynamics, per capita income, and population distribution in the San Francisco Bay Area. Utilizing geospatial visualizations and statistical methods, the research aims to uncover patterns that can inform decisions for various stakeholders, including businesses, potential investors, and policy-makers.</p>
+</section>
+<section id="body" class="level1">
+<h1>Body</h1>
+<section id="part-1" class="level2">
+<h2 class="anchored" data-anchor-id="part-1">Part 1</h2>
+<section id="collecting-and-importing-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="collecting-and-importing-the-data">1.1 Collecting and importing the data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>datafolder <span class="ot">&lt;-</span> (<span class="fu">file.path</span>(<span class="st">"/Users/elisdavies/Documents/gdsAssessment2/data"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Airbnb listing data and neighbourhood boundaries are from <a href="http://insideairbnb.com/">insideairbnb.com</a> and zip code areas are from <a href="https://geodata.lib.berkeley.edu/catalog/ark28722-s7888q">Berkeley Library</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in the AirBnB Listings for the three areas</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sf_listings <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(datafolder,<span class="st">"SF_listings.csv"</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sm_listings <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(datafolder,<span class="st">"SM_listings.csv"</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>o_listings <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(datafolder,<span class="st">"O_listings.csv"</span>))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the neighbourhood files in</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>sf_nb <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="fu">file.path</span>(datafolder,<span class="st">"SF_neighbourhoods.geojson"</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>sm_nb <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="fu">file.path</span>(datafolder,<span class="st">"SM_neighbourhoods.geojson"</span>))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>o_nb <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="fu">file.path</span>(datafolder,<span class="st">"O_neighbourhoods.geojson"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Project the listing dfs</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sf_listings <span class="ot">&lt;-</span> sf_listings <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">7</span>)) <span class="sc">%&gt;%</span> <span class="co"># denote columns which have the coordinates</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_set_crs</span>(<span class="dv">4326</span>) <span class="co"># set crs to 4326</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>sm_listings <span class="ot">&lt;-</span> sm_listings <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">7</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_set_crs</span>(<span class="dv">4326</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>o_listings <span class="ot">&lt;-</span> o_listings <span class="sc">%&gt;%</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">7</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_set_crs</span>(<span class="dv">4326</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in the zip codes</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>zipCodes <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="fu">file.path</span>(datafolder,<span class="st">"Bay_Zips/s7888q.shp"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="preparing-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="preparing-the-data">1.2 Preparing the data</h3>
+<p>Choosing the right projection is important to ensure minimal distortion and maximum preservation of shapes, areas, distances, and directions on the map <span class="citation" data-cites="yildirim2008">(<a href="#ref-yildirim2008" role="doc-biblioref">Yildirim and Kaya 2008</a>)</span>. Therefore, as this analysis looks at San Francisco Bay Area, crs 7131 (from <a href="https://epsg.io/7131" class="uri">https://epsg.io/7131</a>) will be used as this is specific for this area.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Project files to 7131</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sf_nb <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(sf_nb)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sm_nb <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(sm_nb)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>o_nb <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(o_nb)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>zipCodes <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(zipCodes)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>sf_nb <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sf_nb, <span class="dv">7131</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>sm_nb <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sm_nb, <span class="dv">7131</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>o_nb <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(o_nb, <span class="dv">7131</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>sf_listings <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sf_listings, <span class="dv">7131</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>sm_listings <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sm_listings, <span class="dv">7131</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>o_listings <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(o_listings, <span class="dv">7131</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>zipCodes <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(zipCodes, <span class="dv">7131</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join tables to make a single San Francisco Bay Area listings and neighbourhoods shape files</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bay_listings <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sf_listings, sm_listings, o_listings)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>bay_nb <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sf_nb, sm_nb, o_nb)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>bay_nb <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(bay_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mapping-and-data-visualisation" class="level3">
+<h3 class="anchored" data-anchor-id="mapping-and-data-visualisation">1.4 Mapping and Data Visualisation</h3>
+<section id="airbnb-in-the-bay-area" class="level4">
+<h4 class="anchored" data-anchor-id="airbnb-in-the-bay-area">Airbnb in the Bay Area</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join neighbourhoods and listings</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>airbnb_Bay <span class="ot">&lt;-</span> <span class="fu">st_join</span>(bay_nb, bay_listings)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>listings_Bay_zips <span class="ot">&lt;-</span> <span class="fu">st_join</span>(zipCodes, bay_listings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># aggregate at zip level and count number of listings</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>airbnb_zip_agg <span class="ot">&lt;-</span> listings_Bay_zips <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ZIP)<span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">count_airbnb =</span> <span class="fu">n</span>(),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_price =</span> <span class="fu">mean</span>(price)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>airbnb_zip_agg_filtered <span class="ot">&lt;-</span> airbnb_zip_agg <span class="sc">%&gt;%</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(mean_price)) <span class="co"># filter out zips codes that have NA mean price, as there are no listings in these areas</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The Fisher-Jenks system is employed for classifying listing counts and average prices, it makes interpretation easier with unevenly distributed data compared to other methods <span class="citation" data-cites="lee2019a">(<a href="#ref-lee2019a" role="doc-biblioref">Lee et al. 2019</a>)</span>, providing a clear visualisation of the geospatial distribution of the data <span class="citation" data-cites="morales-alemán2022">(<a href="#ref-morales-alemán2022" role="doc-biblioref">Morales-Alemán et al. 2022</a>)</span>.</p>
+<p>Red-Blue and Purple-Orange colour schemes are chosen to visualise these maps. Red-Blue is popular and accessible to those with red-green impairments <span class="citation" data-cites="olson1997">(<a href="#ref-olson1997" role="doc-biblioref">Olson and Brewer 1997</a>)</span>. Purple-Orange is another popular colour scheme as it is effective to represent quantitative data and makes it easier for the viewer to differentiate between the categories <span class="citation" data-cites="golebiowska2019a">(<a href="#ref-golebiowska2019a" role="doc-biblioref">Golebiowska 2019</a>)</span>, especially those with colour vision deficiencies <span class="citation" data-cites="cromley2009">(<a href="#ref-cromley2009" role="doc-biblioref">Cromley and Cromley 2009</a>)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the counts</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Find fisher breaks for data segmentation into 5 groups.</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>fish_breaks_count <span class="ot">&lt;-</span> <span class="fu">classIntervals</span>(airbnb_zip_agg_filtered<span class="sc">$</span>count_airbnb, <span class="at">n =</span> <span class="dv">4</span>, <span class="at">style =</span> <span class="st">"fisher"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the class breaks to the data</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>airbnb_zip_agg_filtered<span class="sc">$</span>fish_breaks_count <span class="ot">&lt;-</span> <span class="fu">cut</span>(airbnb_zip_agg_filtered<span class="sc">$</span>count_airbnb, fish_breaks_count<span class="sc">$</span>brks)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace NA values in the 'fish_break_counts' column</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>airbnb_zip_agg_filtered<span class="sc">$</span>fish_breaks_count[<span class="fu">is.na</span>(airbnb_zip_agg_filtered<span class="sc">$</span>fish_breaks_count)] <span class="ot">&lt;-</span> <span class="st">"(1,81.5]"</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>num_bins <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a color palette for visualizing data.</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>count_map <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(num_bins, <span class="st">"RdBu"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>count_groups <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"1 - 81"</span>, <span class="st">"81 - 210"</span>, <span class="st">"210 - 414"</span>, <span class="st">"414 - 794"</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>map_BA_count <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> airbnb_zip_agg_filtered, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="fu">aes</span>(<span class="at">fill =</span> fish_breaks_count), <span class="at">colour =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_fill_viridis("Mean Price ($)", direction = -1, option = "viridis") +</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> count_map,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Count"</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> count_groups) <span class="sc">+</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_text</span>(<span class="at">data =</span> airbnb_zip_agg_filtered,</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">label =</span> <span class="cn">NA</span>),</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>               <span class="at">fun.geometry =</span> sf<span class="sc">::</span>st_centroid, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Airbnb Data for San Francisco Bay Area"</span>) <span class="sc">+</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">"tl"</span>, <span class="at">style =</span> north_arrow_fancy_orienteering, <span class="at">width =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>), <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>)) <span class="sc">+</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">"bl"</span>, <span class="at">line_width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"in"</span>)) <span class="sc">+</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 1a"</span>) <span class="sc">+</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find fisher breaks for data segmentation into 5 groups.</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fish_breaks_price <span class="ot">&lt;-</span> <span class="fu">classIntervals</span>(airbnb_zip_agg_filtered<span class="sc">$</span>mean_price, <span class="at">n =</span> <span class="dv">4</span>, <span class="at">style =</span> <span class="st">"fisher"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the class breaks to the data</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>airbnb_zip_agg_filtered<span class="sc">$</span>fish_breaks_price <span class="ot">&lt;-</span> <span class="fu">cut</span>(airbnb_zip_agg_filtered<span class="sc">$</span>mean_price, fish_breaks_price<span class="sc">$</span>brks)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace NA values in the 'fish_breaks_price' column</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>airbnb_zip_agg_filtered<span class="sc">$</span>fish_breaks_price[<span class="fu">is.na</span>(airbnb_zip_agg_filtered<span class="sc">$</span>fish_breaks_price)] <span class="ot">&lt;-</span> <span class="st">"(74,214]"</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a color palette for visualizing data.</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>price_map <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(num_bins, <span class="st">"PuOr"</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>price_groups <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$74 - $214"</span>, <span class="st">"$214 - $392"</span>, <span class="st">"$392 - $933"</span>, <span class="st">"$933 - $1820"</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>map_BA_meanPrice <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> airbnb_zip_agg_filtered, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="fu">aes</span>(<span class="at">fill =</span> fish_breaks_price), <span class="at">colour =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_fill_viridis("Mean Price ($)", direction = -1, option = "viridis") +</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> price_map,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Average Price"</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> price_groups) <span class="sc">+</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_text</span>(<span class="at">data =</span> airbnb_zip_agg_filtered,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">label =</span> <span class="cn">NA</span>),</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">fun.geometry =</span> sf<span class="sc">::</span>st_centroid, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 1b"</span>) <span class="sc">+</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>map1 <span class="ot">&lt;-</span> map_BA_count <span class="sc">+</span> map_BA_meanPrice</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>map1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ENVS363_563.3-GITHUB_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Figure 1 shows San Francisco’s centre has the highest listings (figure 1a), but not necessarily the highest prices (figure 1b), while the north-east coastal zip codes, shows the highest prices. Oakland has some high counts, but generally has the lowest prices.</p>
+<p>The inside Airbnb data provides insights into the dynamics of the short-term market and its impact on various aspects of urban environments, as this data makes use of three “new” types of data sources, i.e., open data, businesses moving online, and citizens as sensors <span class="citation" data-cites="arribas-bel2014">(<a href="#ref-arribas-bel2014" role="doc-biblioref">Arribas-Bel 2014</a>)</span>.<br>
+This new form of open data allows for the insight into temporal patterns, spatial distribution, providing insights, and lengths of stay into the changing dynamics of short-term rentals in response to external factors e.g., the COVID-19 pandemic <span class="citation" data-cites="li2023">(<a href="#ref-li2023" role="doc-biblioref">Li, Han, and Wu 2023</a>)</span>. However, biases may arise from voluntary user reviews and selective reporting, influencing the representation of customer experiences and property reputations <span class="citation" data-cites="zervas2020b">(<a href="#ref-zervas2020b" role="doc-biblioref">Zervas, Proserpio, and Byers 2020</a>)</span>.<br>
+Opportunities include conducting spatial regression and quantitative analysis to understand spatio-temporal variations and contextual factors <span class="citation" data-cites="crisci2022">(<a href="#ref-crisci2022" role="doc-biblioref">Crisci et al. 2022</a>)</span>.<br>
+<span class="citation" data-cites="alsudais2021">Alsudais (<a href="#ref-alsudais2021" role="doc-biblioref">2021</a>)</span> has explored the limitations of the dataset. Data is scraped from the Airbnb website using non-updated python scripts which also assumes that Airbnb does not put preventive measures in place or spam data to stop certain data being extracted, leading to false information. Further, data is extracted by listings ID, not if it is an experience or property listings, therefore, reviews of both can be wrongly combined by code due to the same ID, leading to inaccuracies in prices, and reviews.</p>
+</section>
+</section>
+<section id="socio-economic-variables" class="level3">
+<h3 class="anchored" data-anchor-id="socio-economic-variables">1.4.2 Socio-economic variables</h3>
+<p>Socio-economic variables, in this case, per capita income (PCI), and population data, are obtained from the US Census Bureau from 2020.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># per capita income</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>US_zips_income <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"zip code tabulation area"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> <span class="st">"B19301_001"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">geometry =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2020</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># population data</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>US_zips_population <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">geography =</span> <span class="st">"zip code tabulation area"</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> <span class="st">"B01003_001E"</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">geometry =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2020</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>US_zips_income <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(US_zips_income, <span class="dv">7131</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>US_zips_population <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(US_zips_population, <span class="dv">7131</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>US_zips_income <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(US_zips_income, <span class="sc">-</span><span class="fu">c</span>(NAME, variable, moe))</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>US_zips_income <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">rename</span>(US_zips_income, <span class="at">per_capita_income =</span> estimate)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>US_zips_population <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(US_zips_population, <span class="sc">-</span><span class="fu">c</span>(NAME, variable, moe))</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>US_zips_population <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">rename</span>(US_zips_population, <span class="at">population =</span> estimate)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>bay_zips <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(zipCodes, bay_nb)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>bay_zips <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(bay_zips, <span class="fu">c</span>(ZIP, geometry))</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>bay_income_zctas <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(US_zips_income, bay_zips)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>bay_population_zctas <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(US_zips_population, bay_zips)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>bay_income_zctas <span class="ot">&lt;-</span> bay_income_zctas <span class="sc">%&gt;%</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(per_capita_income))</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>bay_population_zctas <span class="ot">&lt;-</span> bay_population_zctas <span class="sc">%&gt;%</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(population))</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>bay_income_zctas_agg <span class="ot">&lt;-</span> bay_income_zctas <span class="sc">%&gt;%</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ZIP) <span class="sc">%&gt;%</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_pci =</span> <span class="fu">mean</span>(per_capita_income)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>bay_population_zctas_agg <span class="ot">&lt;-</span> bay_population_zctas <span class="sc">%&gt;%</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ZIP) <span class="sc">%&gt;%</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_pop =</span> <span class="fu">mean</span>(population)</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the geometry column from bay_population_zctas_agg</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>bay_population_zctas_agg_noGeom <span class="ot">&lt;-</span> <span class="fu">st_drop_geometry</span>(bay_population_zctas_agg)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>bay_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(bay_income_zctas_agg, bay_population_zctas_agg_noGeom, <span class="at">by =</span> <span class="st">"ZIP"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As before, Fisher-Jenks is used for this map, allowing for the better interpretation and classification of unevenly distributed data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>bay_all <span class="ot">&lt;-</span> bay_all <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_pci =</span> <span class="fu">round</span>(mean_pci <span class="sc">/</span> <span class="dv">1000</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Find fisher breaks for data segmentation into 5 groups.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fish_breaks_pci <span class="ot">&lt;-</span> <span class="fu">classIntervals</span>(bay_all<span class="sc">$</span>mean_pci, <span class="at">n =</span> <span class="dv">4</span>, <span class="at">style =</span> <span class="st">"fisher"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the class breaks to the data</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>bay_all<span class="sc">$</span>fish_breaks_pci <span class="ot">&lt;-</span> <span class="fu">cut</span>(bay_all<span class="sc">$</span>mean_pci, fish_breaks_pci<span class="sc">$</span>brks)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>bay_all<span class="sc">$</span>fish_breaks_pci[<span class="fu">is.na</span>(bay_all<span class="sc">$</span>fish_breaks_pci)] <span class="ot">&lt;-</span> <span class="st">"(3,21.5]"</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>num_bins <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a color palette for visualizing data.</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>colour_pci <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(num_bins, <span class="st">"Blues"</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>income_group <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"$25 - $45.5"</span>, <span class="st">"$45.5 - $71"</span>, <span class="st">"$71 - $97"</span>, <span class="st">"$97 - $135"</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>plot_pci <span class="ot">&lt;-</span> bay_all <span class="sc">%&gt;%</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> fish_breaks_pci), <span class="at">colour =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> colour_pci,</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"GDP per capita</span><span class="sc">\n</span><span class="st">(in 1000s)"</span>,</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> income_group) <span class="sc">+</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 2b"</span>) <span class="sc">+</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>bay_all <span class="ot">&lt;-</span> bay_all <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_pop =</span> <span class="fu">round</span>(mean_pop <span class="sc">/</span> <span class="dv">1000</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find fisher breaks for data segmentation into 5 groups.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>fish_breaks_pop <span class="ot">&lt;-</span> <span class="fu">classIntervals</span>(bay_all<span class="sc">$</span>mean_pop, <span class="at">n =</span> <span class="dv">4</span>, <span class="at">style =</span> <span class="st">"fisher"</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign the class breaks to the data</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>bay_all<span class="sc">$</span>fish_breaks_pop <span class="ot">&lt;-</span> <span class="fu">cut</span>(bay_all<span class="sc">$</span>mean_pop, fish_breaks_pop<span class="sc">$</span>brks)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>bay_all<span class="sc">$</span>fish_breaks_pop[<span class="fu">is.na</span>(bay_all<span class="sc">$</span>fish_breaks_pop)] <span class="ot">&lt;-</span> <span class="st">"(25,45.5]"</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>pop_group <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"3 - 21.5"</span>, <span class="st">"21.5 - 32.5"</span>, <span class="st">"32.5 - 44"</span>, <span class="st">"44 - 57"</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>colour_pop <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(num_bins, <span class="st">"Reds"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>plot_pop <span class="ot">&lt;-</span> bay_all <span class="sc">%&gt;%</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> fish_breaks_pop), <span class="at">colour =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> colour_pop,</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Population</span><span class="sc">\n</span><span class="st">(in 1000s)"</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> pop_group) <span class="sc">+</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Socio-economic data for San Francisco Bay Area"</span>, <span class="at">caption =</span> <span class="st">"Figure 2a"</span>) <span class="sc">+</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">"bl"</span>, <span class="at">line_width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"in"</span>))<span class="sc">+</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">"tl"</span>, <span class="at">style =</span> north_arrow_fancy_orienteering, <span class="at">width =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>), <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>)) <span class="sc">+</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the two plots using the `+` operator</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>combined_plot <span class="ot">&lt;-</span> plot_pop <span class="sc">+</span> plot_pci</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the final combined plot</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(combined_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ENVS363_563.3-GITHUB_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Figure 2 shows the spatial distribution of population (2a) and per capita income (2b). Highest populations are around San Francisco, and north San Mateo, with population decreasing moving away from the big cities. Highest GDP is seen in less populated areas notably in the south of San Mateo.<br>
+Predicting Airbnb clusters, it’s expected that high clusters will be in higher-density, higher-income regions like San Francisco and North Mateo. This is because these areas are the most desirable to tourists and business travellers, as there would be a high concentration of attractions, amenities, and activities in such areas <span class="citation" data-cites="rodríguez2021">(<a href="#ref-rodríguez2021" role="doc-biblioref">Rodríguez and Moraes 2021a</a>)</span>. Additionally, these areas have the most infrastructure, i.e., public transport, to support tourists <span class="citation" data-cites="rodríguez2021a">(<a href="#ref-rodríguez2021a" role="doc-biblioref">Rodríguez and Moraes 2021b</a>)</span>.</p>
+</section>
+<section id="combining-data-sets" class="level3">
+<h3 class="anchored" data-anchor-id="combining-data-sets">1.4.3 Combining Data Sets</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>airbnb_seVariables <span class="ot">&lt;-</span> <span class="fu">st_join</span>(bay_all, airbnb_zip_agg_filtered)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>airbnb_seVariables <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(airbnb_seVariables, <span class="sc">-</span><span class="fu">c</span>(ZIP.y))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>airbnb_seVariables <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">rename</span>(airbnb_seVariables, <span class="at">ZIP =</span> ZIP.x)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>airbnb_seVariables<span class="sc">$</span>log_mean_price <span class="ot">&lt;-</span> <span class="fu">log</span>(airbnb_seVariables<span class="sc">$</span>mean_price)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>biClasses <span class="ot">&lt;-</span> <span class="fu">bi_class</span>(airbnb_seVariables, <span class="at">x =</span> mean_pci, <span class="at">y =</span> log_mean_price, <span class="at">style =</span> <span class="st">"quantile"</span>, <span class="at">dim =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>bi_Map <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> biClasses, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">fill =</span> bi_class), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">0.1</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Per Capita Income and Airbnb Listing Prices"</span>, <span class="at">caption =</span> <span class="st">"Figure 3"</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bi_scale_fill</span>(<span class="at">pal =</span> <span class="st">"DkViolet"</span>, <span class="at">dim =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">7131</span>), <span class="at">datum =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="st">"cm"</span>),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">"bl"</span>, <span class="at">line_width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">0.05</span>, <span class="st">"in"</span>)) <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">"tl"</span>, <span class="at">which_north =</span> <span class="st">"true"</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>), <span class="at">width =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">style =</span> north_arrow_fancy_orienteering) <span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>bi_Legend <span class="ot">&lt;-</span> <span class="fu">bi_legend</span>(<span class="at">pal =</span> <span class="st">"DkViolet"</span>, <span class="at">dim =</span> <span class="dv">3</span>, <span class="at">xlab =</span> <span class="st">"Higher PCI"</span>, <span class="at">ylab =</span> <span class="st">"Higher price"</span>, <span class="at">size =</span> <span class="dv">7</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggdraw</span>() <span class="sc">+</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(bi_Map, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_plot</span>(bi_Legend, <span class="fl">0.55</span>, <span class="fl">0.358</span>, <span class="fl">0.28</span>, <span class="fl">0.28</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ENVS363_563.3-GITHUB_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(airbnb_seVariables<span class="sc">$</span>mean_pci, airbnb_seVariables<span class="sc">$</span>mean_price, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">"pearson"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>p.value</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>estimate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<table class="table">
+<caption>Table 1: Pearson correlation result</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">P Value</th>
+<th style="text-align: center;">Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">0.33</td>
+</tr>
+</tbody>
+</table>
+<p>Figure 3 shows the areas that see higher PCI see higher average listing prices, supported by the correlation test result of 0.33 (table 1) indicating a positive correlation between the variables.</p>
+<p>As in the hypothesis, areas that have high PCI experience higher listings prices, especially seen in the centre of San Francisco. Notably, Oakland, especially the inner city, shows low per capita and low listing prices.<br>
+The rise of short-term rentals, like Airbnb, may fuel gentrification in specific areas, potentially elevating property values and rental prices. This phenomenon, reflected in higher listing prices, is often associated with increased PCI in those locations <span class="citation" data-cites="wachsmuth2018">(<a href="#ref-wachsmuth2018" role="doc-biblioref">Wachsmuth and Weisler 2018</a>)</span>.</p>
+</section>
+<section id="spatial-autocorrelation-of-gdp" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-autocorrelation-of-gdp">1.4.4 Spatial Autocorrelation of GDP</h3>
+<p>To compute spatial autocorrelation of PCI, the queen contiguity spatial weights encompassing all neighbouring areas that share a border or vertex with a focal area <span class="citation" data-cites="zahnd2021">(<a href="#ref-zahnd2021" role="doc-biblioref">Zahnd, Bell, and Larson 2021</a>)</span>. This method provides a thorough evaluation of spatial relationships. Additionally, the Local Moran’s I is employed to reveal spatial clusters of similar values. This approach is valuable for identifying localized patterns in PCI distribution.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>bay_all_spaitalWeights <span class="ot">&lt;-</span> bay_all</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>nb_q <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(bay_all_spaitalWeights, <span class="at">queen =</span> <span class="cn">TRUE</span>) <span class="co"># Construct neighbours list from polygon list</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>w_queen <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_q, <span class="at">style =</span> <span class="st">"B"</span>, <span class="at">zero.policy=</span><span class="cn">TRUE</span>) <span class="co"># Create a spatial weights matrix using queen contiguity</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>isolates <span class="ot">&lt;-</span> <span class="fu">which</span>(w_queen<span class="sc">$</span>neighbours <span class="sc">==</span> <span class="st">"0"</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>bay_all_spaitalWeights <span class="ot">&lt;-</span> bay_all_spaitalWeights[<span class="sc">-</span><span class="fu">c</span>(isolates),]</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>nb_q <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(bay_all_spaitalWeights, <span class="at">queen =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>w_queen_std <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb_q, <span class="at">style =</span> <span class="st">"W"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bay_all_spaitalWeights<span class="sc">$</span>w_pci <span class="ot">&lt;-</span> <span class="fu">lag.listw</span>(w_queen_std, bay_all_spaitalWeights<span class="sc">$</span>mean_pci)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>bay_all_spaitalWeights<span class="sc">$</span>pci_std <span class="ot">&lt;-</span> (bay_all_spaitalWeights<span class="sc">$</span>mean_pci <span class="sc">-</span> <span class="fu">mean</span>(bay_all_spaitalWeights<span class="sc">$</span>mean_pci))<span class="sc">/</span><span class="fu">sd</span>(bay_all_spaitalWeights<span class="sc">$</span>mean_pci)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>bay_all_spaitalWeights<span class="sc">$</span>w_pci_std <span class="ot">&lt;-</span> <span class="fu">lag.listw</span>(w_queen_std, bay_all_spaitalWeights<span class="sc">$</span>pci_std)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>lisa_perm <span class="ot">&lt;-</span> <span class="fu">localmoran_perm</span>(bay_all_spaitalWeights<span class="sc">$</span>mean_pci, w_queen_std, <span class="at">nsim=</span><span class="dv">1000</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>quadrants <span class="ot">&lt;-</span> <span class="fu">hotspot</span>(lisa_perm, <span class="at">Prname=</span><span class="st">"Pr(z != E(Ii)) Sim"</span>, <span class="at">cutoff=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>bay_all_spaitalWeights<span class="sc">$</span>quadrant <span class="ot">&lt;-</span> <span class="fu">as.character</span>(quadrants)  <span class="sc">%&gt;%</span> <span class="fu">replace_na</span>(<span class="st">"Not significant"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>bay_all_spaitalWeights <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(bay_all_spaitalWeights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cluster_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"High-High"</span> <span class="ot">=</span> <span class="st">"#047fbd"</span>,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Low-Low"</span> <span class="ot">=</span> <span class="st">"#ea0000"</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Not significant"</span> <span class="ot">=</span> <span class="st">"#d3d3d3"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> bay_all_spaitalWeights) <span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> quadrant), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Spatial Weight Analysis of per captia income"</span>, <span class="at">caption =</span> <span class="st">"Figure 4"</span>) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> cluster_colors, <span class="at">name =</span> <span class="st">"Cluster"</span>) <span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">"bl"</span>, <span class="at">line_width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"in"</span>))<span class="sc">+</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">"tl"</span>, <span class="at">style =</span> north_arrow_fancy_orienteering, <span class="at">width =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>), <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>)) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ENVS363_563.3-GITHUB_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Figure 4 displays a spatial weights matrix for PCI. The only high-high cluster is observed in the south of San Mateo, with a large low cluster in Oakland. San Francisco exhibits high variability in income levels, which is supported by <span class="citation" data-cites="fisher2022">Fisher et al. (<a href="#ref-fisher2022" role="doc-biblioref">2022</a>)</span>.</p>
+</section>
+</section>
+<section id="part-2" class="level2">
+<h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
+<section id="data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain the San Fransisco zip code areas</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>o_nb <span class="ot">&lt;-</span> <span class="fu">st_set_geometry</span>(o_nb, <span class="st">"geometry"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>zipCodes <span class="ot">&lt;-</span> <span class="fu">st_set_geometry</span>(zipCodes, <span class="st">"geometry"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>o_zipCodes <span class="ot">&lt;-</span> bay_all[o_nb,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grant internet connection</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(curl)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>curl<span class="sc">::</span><span class="fu">has_internet</span>()</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">assign</span>(<span class="st">"has_internet_via_proxy"</span>, <span class="cn">TRUE</span>, <span class="fu">environment</span>(curl<span class="sc">::</span>has_internet))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>osm_q_o <span class="ot">&lt;-</span> <span class="fu">opq</span>(<span class="st">"Oakland"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_osm_feature</span>(<span class="at">key =</span> <span class="st">"amenity"</span>, <span class="at">value =</span> <span class="st">"restaurant"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">osmdata_sf</span> () <span class="co"># transforming to sf object</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>point_resturants <span class="ot">&lt;-</span> osm_q_o<span class="sc">$</span>osm_points <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(amenity <span class="sc">==</span> <span class="st">"restaurant"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">7131</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>centroid_resturants <span class="ot">&lt;-</span> osm_q_o<span class="sc">$</span>osm_polygons <span class="sc">%&gt;%</span> </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_centroid</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">7131</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>all_restaurants <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(centroid_resturants, point_resturants)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>all_restaurants <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(all_restaurants, <span class="at">crs =</span> <span class="dv">7131</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>o_restaurants <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(all_restaurants, o_zipCodes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>o_listings_zips <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(airbnb_zip_agg_filtered, o_zipCodes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"osm_id"</span>, <span class="st">"geometry"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>o_restaurants_sub <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(o_restaurants,vars)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>o_restaurants_geom <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_as_sf</span>(</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  o_restaurants_sub,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"osm_id"</span>),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs =</span> <span class="dv">7131</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>o_rest_ZIP <span class="ot">&lt;-</span> <span class="fu">st_join</span>(o_zipCodes, o_restaurants_geom)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>o_rest_ZIP_agg <span class="ot">&lt;-</span> o_rest_ZIP <span class="sc">%&gt;%</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ZIP) <span class="sc">%&gt;%</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">count_rest =</span> <span class="fu">ifelse</span>(<span class="fu">all</span>(<span class="fu">is.na</span>(osm_id)), <span class="dv">0</span>, <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(osm_id)))</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>o_rest_airbnb <span class="ot">&lt;-</span> <span class="fu">st_join</span>(o_rest_ZIP_agg, o_listings_zips, <span class="at">by =</span> <span class="st">"ZIP"</span>)</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>o_rest_airbnb <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(o_rest_airbnb, ZIP.x, count_rest, geometry, count_airbnb)</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>o_rest_airbnb <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">rename</span>(o_rest_airbnb, <span class="at">ZIP =</span> ZIP.x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="dbscan" class="level3">
+<h3 class="anchored" data-anchor-id="dbscan">DBSCAN</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"osm_id"</span>, <span class="st">"geometry"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>d.sub <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(o_restaurants,vars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert geometries to longitude and latitude</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>d.sub_longlat <span class="ot">&lt;-</span> d.sub <span class="sc">%&gt;%</span> <span class="fu">extract</span>(geometry, <span class="fu">c</span>(<span class="st">'lat'</span>, <span class="st">'lon'</span>), <span class="st">'</span><span class="sc">\\</span><span class="st">((.*), (.*)</span><span class="sc">\\</span><span class="st">)'</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>locs <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">select</span>(d.sub_longlat, lat, lon)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co">#scalling the data points</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>locs.scaled <span class="ot">=</span> <span class="fu">scale</span>(locs,<span class="at">center =</span> T,<span class="at">scale =</span> T)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>dbscan<span class="sc">::</span><span class="fu">kNNdistplot</span>(locs.scaled,<span class="at">k=</span><span class="dv">1</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fl">0.15</span>,<span class="at">lty =</span> <span class="dv">2</span>,<span class="at">col=</span><span class="fu">rainbow</span>(<span class="dv">1</span>),<span class="at">main=</span><span class="st">"eps optimal value"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># eps optimal value = 0.15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Setting MinPts = 10 prioritizes significant local density within clusters. This choice aids in noise reduction, filtering out less dense regions and promotes the formation of larger, consolidated clusters, enhancing the identification of major activity centres <span class="citation" data-cites="lin2020">(<a href="#ref-lin2020" role="doc-biblioref">Lin, Kuo, and Chuang 2020</a>)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456789</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> dbscan<span class="sc">::</span><span class="fu">dbscan</span>(locs.scaled, <span class="at">eps =</span> <span class="fl">0.15</span>, <span class="at">minPts =</span> <span class="dv">10</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>o_restaurants_geom<span class="sc">$</span>cluster <span class="ot">&lt;-</span> db<span class="sc">$</span>cluster</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example color assignment for clusters</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>cluster_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#000000"</span>, <span class="st">"#FF0000"</span>,<span class="st">"#F8766D"</span>, <span class="st">"#CE9600"</span>, <span class="st">"#7CAE00"</span>, <span class="st">"#09BE66"</span>, <span class="st">"#00BFC4"</span>, <span class="st">"#00A9FF"</span>, <span class="st">"#C77BFF"</span>, <span class="st">"#FF62CC"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> o_zipCodes, <span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> o_restaurants_geom, <span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">factor</span>(cluster)), <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cluster_colors, <span class="at">name =</span> <span class="st">"Cluster Group"</span>) <span class="sc">+</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Restaurant Clusters in Oakland"</span>, <span class="at">subtitle =</span> <span class="st">"DBSCAN"</span>, <span class="at">caption =</span> <span class="st">"Cluster group 0 = outliers</span><span class="sc">\n</span><span class="st">Figure 5"</span>) <span class="sc">+</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_scale</span>(<span class="at">location =</span> <span class="st">"bl"</span>, <span class="at">line_width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">0.05</span>, <span class="st">"in"</span>)) <span class="sc">+</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">"tl"</span>, <span class="at">which_north =</span> <span class="st">"true"</span>,</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>), <span class="at">width =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">"cm"</span>),</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">style =</span> north_arrow_fancy_orienteering) <span class="sc">+</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ENVS363_563.3-GITHUB_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This analysis can assist potential restaurant owners in Oakland. Considering the substantial use of restaurants by Airbnb tourists <span class="citation" data-cites="tussyadiah2016">(<a href="#ref-tussyadiah2016" role="doc-biblioref">Tussyadiah and Pesonen 2016</a>)</span>, identifying areas with a high number of Airbnbs (figure 1a) and minimal restaurant competition is crucial (figure 5). The southeast zip code area stands out based on these factors, with a high Airbnb presence and a lack of restaurant clusters.</p>
+</section>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>In conclusion, this analysis reveals insights into the San Francisco Bay Area’s urban dynamics, drawing from Inside Airbnb data and socio-economic variables. Notably, high per capita income areas correlate with elevated Airbnb listing prices, reflecting the influence of socio-economic factors on short-term rental dynamics. The study identifies potential hotspots for new restaurants, such as the southeast of Oakland, based on Airbnb presence and limited competition. Despite data limitations, these findings offer practical implications for businesses and stakeholders, underscoring the complex interplay between short-term rentals, urban socio-economics, and spatial patterns.</p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-alsudais2021" class="csl-entry" role="listitem">
+Alsudais, Abdulkareem. 2021. <span>‘Incorrect Data in the Widely Used Inside Airbnb Dataset’</span>. <em>Decision Support Systems</em> 141 (February): 113453. <a href="https://doi.org/10.1016/j.dss.2020.113453">https://doi.org/10.1016/j.dss.2020.113453</a>.
+</div>
+<div id="ref-arribas-bel2014" class="csl-entry" role="listitem">
+Arribas-Bel, Daniel. 2014. <span>‘Accidental, Open and Everywhere: Emerging Data Sources for the Understanding of Cities’</span>. <em>Applied Geography</em> 49 (May): 45–53. <a href="https://doi.org/10.1016/j.apgeog.2013.09.012">https://doi.org/10.1016/j.apgeog.2013.09.012</a>.
+</div>
+<div id="ref-crisci2022" class="csl-entry" role="listitem">
+Crisci, Massimiliano, Federico Benassi, Hamidreza Rabiei-Dastjerdi, and Gavin McArdle. 2022. <span>‘Spatio-Temporal Variations and Contextual Factors of the Supply of Airbnb in Rome. An Initial Investigation’</span>. <em>Letters in Spatial and Resource Sciences</em> 15 (2): 237–53. <a href="https://doi.org/10.1007/s12076-022-00302-y">https://doi.org/10.1007/s12076-022-00302-y</a>.
+</div>
+<div id="ref-cromley2009" class="csl-entry" role="listitem">
+Cromley, Robert G, and Ellen K Cromley. 2009. <span>‘Choropleth Map Legend Design for Visualizing Community Health Disparities’</span>. <em>International Journal of Health Geographics</em> 8 (1): 52. <a href="https://doi.org/10.1186/1476-072x-8-52">https://doi.org/10.1186/1476-072x-8-52</a>.
+</div>
+<div id="ref-fisher2022" class="csl-entry" role="listitem">
+Fisher, Stephanie A., Allie Sakowicz, Cynthia Barnard, Seth Kidder, and Emily S. Miller. 2022. <span>‘Neighborhood Deprivation and Preterm Delivery During the Coronavirus 2019 Pandemic’</span>. <em>American Journal of Obstetrics &amp; Gynecology MFM</em> 4 (1): 100493. <a href="https://doi.org/10.1016/j.ajogmf.2021.100493">https://doi.org/10.1016/j.ajogmf.2021.100493</a>.
+</div>
+<div id="ref-golebiowska2019a" class="csl-entry" role="listitem">
+Golebiowska, Izabela. 2019. <span>‘Evaluating Rainbow Colour Scheme in Social Data Mapping’</span>. <em>Abstracts of the ICA</em> 1 (July): 1–2. <a href="https://doi.org/10.5194/ica-abs-1-96-2019">https://doi.org/10.5194/ica-abs-1-96-2019</a>.
+</div>
+<div id="ref-lee2019a" class="csl-entry" role="listitem">
+Lee, Gyoung-Ju, Son-Il Pak, Kwang-Nyeong Lee, and Sungjo Hong. 2019. <span>‘Movement-Based Biosecurity Zones for Control of Highly Infectious Animal Diseases: Application of Community Detection Analysis to a Livestock Vehicle Movement Network’</span>. <em>Sustainability</em> 11 (6): 1642. <a href="https://doi.org/10.3390/su11061642">https://doi.org/10.3390/su11061642</a>.
+</div>
+<div id="ref-li2023" class="csl-entry" role="listitem">
+Li, Peize, Sun Sheng Han, and Hao Wu. 2023. <span>‘<span>“</span>Home Away from Home<span>”</span> in Pandemic Times: How Has COVID-19 Changed the Airbnb Market in Melbourne?’</span> <em>International Journal of Housing Markets and Analysis</em> 16 (3): 450–73. <a href="https://doi.org/10.1108/ijhma-08-2022-0123">https://doi.org/10.1108/ijhma-08-2022-0123</a>.
+</div>
+<div id="ref-lin2020" class="csl-entry" role="listitem">
+Lin, Jun-Lin, Jen-Chieh Kuo, and Hsing-Wang Chuang. 2020. <span>‘Improving Density Peak Clustering by Automatic Peak Selection and Single Linkage Clustering’</span>. <em>Symmetry</em> 12 (7): 1168. <a href="https://doi.org/10.3390/sym12071168">https://doi.org/10.3390/sym12071168</a>.
+</div>
+<div id="ref-morales-alemán2022" class="csl-entry" role="listitem">
+Morales-Alemán, Mercedes M., Qinglin Hu, Gwendolyn Ferreti, and Lea G. Yerby. 2022. <span>‘Geographic Access to Primary Healthcare Services Among Latinos/as/x in Western Alabama’</span>. <em>Southern Medical Journal</em> 115 (12): 864–69. <a href="https://doi.org/10.14423/smj.0000000000001476">https://doi.org/10.14423/smj.0000000000001476</a>.
+</div>
+<div id="ref-olson1997" class="csl-entry" role="listitem">
+Olson, Judy M., and Cynthia A. Brewer. 1997. <span>‘An Evaluation of Color Selections to Accommodate Map Users with Color-Vision Impairments’</span>. <em>Annals of the Association of American Geographers</em> 87 (1): 103–34. <a href="https://doi.org/10.1111/0004-5608.00043">https://doi.org/10.1111/0004-5608.00043</a>.
+</div>
+<div id="ref-rodríguez2021" class="csl-entry" role="listitem">
+Rodríguez, Diana E. Forero, and Milena Lima de Moraes. 2021a. <span>‘Spatial Influence on Qualitative Food Consumption in Colombia’</span>. <em>Ciência &amp; Saúde Coletiva</em> 26 (12): 6165–74. <a href="https://doi.org/10.1590/1413-812320212612.25702020">https://doi.org/10.1590/1413-812320212612.25702020</a>.
+</div>
+<div id="ref-rodríguez2021a" class="csl-entry" role="listitem">
+———. 2021b. <span>‘Spatial Influence on Qualitative Food Consumption in Colombia’</span>. <em>Ciência &amp; Saúde Coletiva</em> 26 (12): 6165–74. <a href="https://doi.org/10.1590/1413-812320212612.25702020">https://doi.org/10.1590/1413-812320212612.25702020</a>.
+</div>
+<div id="ref-tussyadiah2016" class="csl-entry" role="listitem">
+Tussyadiah, Iis P., and Juho Pesonen. 2016. <span>‘Impacts of Peer-to-Peer Accommodation Use on Travel Patterns’</span>. <em>Journal of Travel Research</em> 55 (8): 1022–40. <a href="https://doi.org/10.1177/0047287515608505">https://doi.org/10.1177/0047287515608505</a>.
+</div>
+<div id="ref-wachsmuth2018" class="csl-entry" role="listitem">
+Wachsmuth, David, and Alexander Weisler. 2018. <span>‘Airbnb and the Rent Gap: Gentrification Through the Sharing Economy’</span>. <em>Environment and Planning A: Economy and Space</em> 50 (6): 1147–70. <a href="https://doi.org/10.1177/0308518x18778038">https://doi.org/10.1177/0308518x18778038</a>.
+</div>
+<div id="ref-yildirim2008" class="csl-entry" role="listitem">
+Yildirim, Faruk, and Ahmet Kaya. 2008. <span>‘Selecting Map Projections in Minimizing Area Distortions in GIS Applications’</span>. <em>Sensors</em> 8 (12): 7809–17. <a href="https://doi.org/10.3390/s8127809">https://doi.org/10.3390/s8127809</a>.
+</div>
+<div id="ref-zahnd2021" class="csl-entry" role="listitem">
+Zahnd, Whitney E., Nathaniel Bell, and Annie E. Larson. 2021. <span>‘Geographic, Racial/Ethnic, and Socioeconomic Inequities in Broadband Access’</span>. <em>The Journal of Rural Health</em> 38 (3): 519–26. <a href="https://doi.org/10.1111/jrh.12635">https://doi.org/10.1111/jrh.12635</a>.
+</div>
+<div id="ref-zervas2020b" class="csl-entry" role="listitem">
+Zervas, Georgios, Davide Proserpio, and John W. Byers. 2020. <span>‘A First Look at Online Reputation on Airbnb, Where Every Stay Is Above Average’</span>. <em>Marketing Letters</em> 32 (1): 1–16. <a href="https://doi.org/10.1007/s11002-020-09546-4">https://doi.org/10.1007/s11002-020-09546-4</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
