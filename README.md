@@ -15,3 +15,4 @@ Through these projects, I aim to demonstrate my ability to interpret and analyse
 ## Projects
 ### GIS Based
 - [Convenience store location planning](https://github.com/ElisJD/elisjd.github.io/blob/main/GIS/ASDA%20Express%20Location%20Planning.pdf)
+- [Liverpool City Region population change](https://github.com/ElisJD/elisjd.github.io/blob/main/GIS/Liverpool%20City%20Region%20Population%20Dynamics.pdf)
