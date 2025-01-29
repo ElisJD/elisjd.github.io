@@ -5,11 +5,13 @@ Through these projects, I aim to demonstrate my ability to interpret and analyse
 
 *Projects are uploaded through prior permissions of employers and in-case of university assignments, all marks and submissions have been returned.*
 
-### Education
+## Education
 - University of Liverpool. Geographic Data Science MSc
 - University of Liverpool. Geography BSc
 
-### Work Experience
+## Work Experience
 - [Data Analyst at IGP, UCL](https://github.com/ElisJD/elisjd.github.io/blob/main/Internship%20Overview.pdf)
 
-### Projects
+## Projects
+### GIS Based
+- [Convenience store location planning](https://github.com/ElisJD/elisjd.github.io/blob/main/GIS/ASDA%20Express%20Location%20Planning.pdf)
