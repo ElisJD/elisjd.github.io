@@ -10,6 +10,6 @@ Through these projects, I aim to demonstrate my ability to interpret and analyse
 - University of Liverpool. Geography BSc
 
 ### Work Experience
-- [Data Analyst at IGP, UCL](IGP/Internship Overview.pdf)
+- [Data Analyst at IGP, UCL](https://github.com/ElisJD/elisjd.github.io/blob/main/Internship%20Overview.pdf)
 
 ### Projects
