@@ -16,3 +16,9 @@ Through these projects, I aim to demonstrate my ability to interpret and analyse
 ### GIS Based
 - [Convenience store location planning](https://github.com/ElisJD/elisjd.github.io/blob/main/GIS/ASDA%20Express%20Location%20Planning.pdf)
 - [Liverpool City Region population change](https://github.com/ElisJD/elisjd.github.io/blob/main/GIS/Liverpool%20City%20Region%20Population%20Dynamics.pdf)
+
+### Data Analysis
+- [Earthquake data analysis](https://nbviewer.org/github/ElisJD/elisjd.github.io/blob/main/ENVS615/earthquakes.ipynb)
+  
+### Data Science
+- [London flat rental predictions](https://nbviewer.org/github/ElisJD/elisjd.github.io/blob/main/ENVS615/london_flat_rentals.ipynb)
